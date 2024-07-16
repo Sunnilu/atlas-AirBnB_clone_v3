@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""object that handles all default RESTFul API actions"""
+"""Object that handles all default RESTFul API actions"""
 
 from api.v1.views import app_views
 from flask import jsonify, request, abort
@@ -8,8 +8,8 @@ from models.user import User
 from hashlib import md5
 
 
-@app_views.route("/users")
-def users():
+@app_views.route("/users", methods=["GET"])
+def get_users():
     """Get all users
 
     Returns:
@@ -24,8 +24,8 @@ def users():
     return jsonify(result)
 
 
-@app_views.route("/users/<user_id>")
-def one_user(user_id):
+@app_views.route("/users/<user_id>", methods=["GET"])
+def get_user(user_id):
     """Get one user
 
     Args:
@@ -49,7 +49,7 @@ def delete_user(user_id):
         user_id (str): ID of the user
 
     Returns:
-        dict: Am empty JSON
+        dict: An empty JSON
     """
     user = storage.get(User, user_id)
     if not user:
@@ -58,7 +58,7 @@ def delete_user(user_id):
     user.delete()
     storage.save()
 
-    return jsonify({})
+    return jsonify({}), 200
 
 
 @app_views.route("/users", methods=["POST"])
@@ -103,11 +103,9 @@ def update_user(user_id):
         if key not in ["id", "email", "created_at", "updated_at", "__class__"]:
             if key in payload:
                 if key == "password":
-                    setattr(user, key,
-                            md5(str(payload[key]).encode()).hexdigest())
+                    setattr(user, key, md5(str(payload[key]).encode()).hexdigest())
                 else:
-                    setattr(user, key,
-                            payload[key] if key in payload else value)
+                    setattr(user, key, payload[key] if key in payload else value)
     user.save()
 
-    return jsonify(user.to_dict())
+    return jsonify(user.to_dict()), 200
