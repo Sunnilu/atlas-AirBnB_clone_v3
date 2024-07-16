@@ -5,3 +5,10 @@ Jennifer Huang <133@holbertonschool.com>
 Alexa Orrico <210@holbertonschool.com>
 Joann Vuong <130@holbertonschool.com> 
 Suntha Lucas, Suntha Lucas@atlasschool.com, Suntha.Lucas@linkedin.com
+
+Makes an HTTP request to a URL…
+Using one of the standard HTTP methods (GET, PUT, POST, PATCH, DELETE, etc.)…
+With some content (usually JSON) in the body…
+And waits for a response, which:
+Indicates status via an HTTP response code
+And usually has more JSON in the body.
